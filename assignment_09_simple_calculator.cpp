@@ -73,3 +73,139 @@
 #include <cmath>
 using namespace std;
 
+// Adds two numbers and returns the result
+double add(double a, double b) {
+    return a + b;
+}
+
+// Subtracts b from a
+double subtract(double a, double b) {
+    return a - b;
+}
+
+// Multiplies two numbers
+double multiply(double a, double b) {  
+    return a * b;
+}
+
+// Divides a by b, returns 0 if b is 0 (caller should handle this case)
+double divide(double a, double b) {
+    return a/b;
+}
+
+// Computes the remainder of a divided by b. Caller checks b != 0 first.
+double modulus(double a, double b) {
+    return fmod(a, b);
+}
+
+// Raises a to the power of b using a loop ( handles negative examples)
+double exponentiate(double base, int exponent) {
+    double result = 1.0;
+    int n = (exponent < 0) ? -exponent : exponent; // Handle negative exponents
+    for (int i = 0; i < n; ++i) {
+        result *= base;
+    }
+    if (exponent < 0) {
+        return 1.0 / result; // Return reciprocal for negative exponent
+    }
+    return result;
+}
+
+int main() {
+    int choice;
+    
+    do {
+        // Display the menu
+        cout << "============================" << endl;
+        cout << "     SIMPLE CALCULATOR" << endl;
+        cout << "============================" << endl;
+        cout << "1. Addition" << endl;
+        cout << "2. Subtraction" << endl;
+        cout << "3. Multiplication" << endl;
+        cout << "4. Division" << endl;
+        cout << "5. Modulus" << endl;
+        cout << "6. Exponentiation" << endl;
+        cout << "7. Quit" << endl;
+        cout << "Select an operation (1-7): ";
+        cin >> choice;
+    
+    if (cin.fail()) {
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << "Invalid input. Please enter a number." << endl << endl;
+        continue;
+    }
+    cout << endl; // Add a blank line for better readability
+
+    if (choice == 7) {
+        cout << "Goodbye!" << endl;
+        break;
+    }
+
+    if (choice < 1 || choice > 7) {
+        cout << "Invalid choice. Please select a number between 1 and 7." << endl << endl;
+        continue;
+    }
+
+    // Exponentiation reads its second value as an integer exponent.
+    if (choice == 6) {
+        double base;
+        int exponent;
+        cout << "Enter first number : ";
+        cin >> base;
+        cout << "Enter second number: ";
+        cin >> exponent;
+
+        double result = exponentiate(base, exponent);
+        cout << " Result: " << base << " ^ " << exponent << " = " << fixed << setprecision(2) << result << endl << endl;
+        cout << defaultfloat; // Reset to default formatting
+        continue;
+    }
+
+    double num1, num2;
+    cout << "Enter first number : ";
+    cin >> num1;
+    cout << "Enter second number: ";
+    cin >> num2;
+
+    double result = 0.0;
+    char symbol = '?';
+
+    switch (choice) {
+        case 1:
+            result = add(num1, num2);
+            symbol = '+';
+            break;
+        case 2:
+            result = subtract(num1, num2);
+            symbol = '-';
+            break;
+        case 3:
+            result = multiply(num1, num2);
+            symbol = '*';
+            break;
+        case 4:
+            if (num2 == 0) {
+                cout << "Error: Cannot divide by zero." << endl << endl;
+                continue;
+            }
+            result = divide(num1, num2);
+            symbol = '/';
+            break;
+        case 5:
+            if (num2 == 0) {
+                cout << "Error: Cannot perform modulus by zero." << endl << endl;
+                continue;
+            }
+            result = ::modulus(num1, num2);
+            symbol = '%';
+            break;
+    }
+
+    cout << "Result: " << num1 << " " << symbol << " " << num2 << " = " << fixed << setprecision(2) << result << endl << endl;
+    cout << defaultfloat; // Reset to default formatting
+
+} while (choice != 7);
+
+    return 0;
+}
